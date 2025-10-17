@@ -27,4 +27,16 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const user = await userService.createUser({ name, email, password });
+    const token = generateToken({ id: user.id, name: user.name, email: user.email });
+    res.json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message, code: 500 });
+  }
+});
+
 module.exports = router;
