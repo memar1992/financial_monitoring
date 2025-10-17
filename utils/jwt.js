@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET = 'my_super_secret'; // change to env var later
+const SECRET = process.env.JWT_SECRET; // change to env var later
 
 exports.generateToken = (user) => {
   return jwt.sign(user, SECRET, { expiresIn: '1h' });
