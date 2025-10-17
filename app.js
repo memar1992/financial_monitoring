@@ -24,9 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userApiRoutes);
 
-console.log('authRoutes:', typeof authRoutes);
-console.log('userApiRoutes:', typeof userApiRoutes);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
