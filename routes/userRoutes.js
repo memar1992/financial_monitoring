@@ -5,6 +5,6 @@ const auth = require('../middlewares/authMiddleWare');
 
 router.get('/', auth, userController.getUsers);
 router.get('/:id', auth, userController.getUserById);
-router.post('/create', userController.createUser); // create if need additional member
+router.post('/register', userController.createUser); // create if need additional member
 
 module.exports = router;

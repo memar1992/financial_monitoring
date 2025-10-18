@@ -12,12 +12,25 @@ exports.getUserById = async (id) => {
 };
 
 exports.createUser = async (userData) => {
-  const { name, email, password } = userData;
+  const { name, email, password, parentId } = userData;
+
+  let role = 'main';
+  let resolvedParentId = parentId;
+
+  if (userData.user && userData.user.role === 'main') {
+    role = 'member';
+    parentId = userData.user.id;
+  }
+
+  if (userData.user && userData.user.role === 'super_admin' && role === 'main') {
+    resolvedParentId = userData.user.id;
+  }
+
   const hashed = await bcrypt.hash(password, 10);
 
   const result = await pool.query(
-    'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email',
-    [name, email, hashed]
+    'INSERT INTO users (name, email, password, role, parent_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, name, email',
+    [name, email, hashed, role, resolvedParentId]
   );
   return result.rows[0];
 };
